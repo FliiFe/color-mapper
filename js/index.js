@@ -18,8 +18,13 @@ window.onload = function () {
     ctx2.drawImage($('#colorized')[0], 0, 0);
     $('#originalSize')[0].style.display = 'none';
     $('#colorized')[0].style.display = 'none';
-    workOutRatios();
-    startDrawing();
+    $('#start')[0].addEventListener('click', function () {
+        $('#start')[0].value = 'Mapping colors...';
+        setTimeout(startDrawing, 100);
+    });
+    $('#save')[0].addEventListener('click', function () {
+        window.open(canvas.toDataURL());
+    })
 }
 
 function workOutRatios() {
@@ -32,6 +37,7 @@ function pixelNumberFromCoords(x, y, refcanvas) {
 }
 
 function startDrawing() {
+    workOutRatios();
     var colorizedImageData = ctx2.getImageData(0, 0, canvas2.width, canvas2.height);
     var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);;
     for (var x = 0; x < imageData.width; x++) {
@@ -64,4 +70,5 @@ function startDrawing() {
         }
     }
     ctx.putImageData(imageData, 0, 0);
+    $('#start')[0].value = 'Done !';
 }
