@@ -7,14 +7,13 @@
 <body>
     <input type="button" id="start" value="Start mapping colors"></input>
     <input type="button" id="save" value="Save result"></input>
+    <span id="progress">Progress: 0%</span>
     <br />
     <img src="images/original.jpg" id="originalSize" crossOrigin="Anonymous"></img>
     <img src="images/colorized.jpg" crossOrigin="Anonymous" id="colorized"></img>
-    <canvas id="colorizedCanvas"></canvas>
     <canvas id="result"></canvas>
-    <textarea id="logArea"></textarea>
+    <canvas id="colorizedCanvas"></canvas>
     <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
-    <script src="https://cdn.rawgit.com/bgrins/TinyColor/master/dist/tinycolor-min.js"></script>
     <script src="js/index.js"></script>
 </body>
 
