@@ -1,5 +1,8 @@
-var originalImageUrl = $('#originalSize')[0].getAttribute('src');
-var colorizedImageUrl = $('#colorized')[0].getAttribute('src');
+var originalImage = $('#originalSize')[0];
+var colorizedImage = $('#colorized')[0];
+
+var originalInput = $('#originalImageInput')[0];
+var colorizedInput = $('#colorizedImageInput')[0];
 
 var canvas = $('#result')[0];
 var ctx = canvas.getContext('2d');
@@ -7,23 +10,58 @@ var ctx = canvas.getContext('2d');
 var canvas2 = $('#colorizedCanvas')[0];
 var ctx2 = canvas2.getContext('2d');
 
-window.onload = function () {
+function onStartClick() {
+    $('#start')[0].value = 'Mapping colors...';
+    setTimeout(launchWebWorker, 100);
+}
+
+function onSaveClick() {
+    window.open(canvas.toDataURL());
+}
+
+originalInput.onchange = function () {
+    var preview = originalImage;
+    var file = originalInput.files[0];
+    var reader = new FileReader();
+
+    reader.addEventListener("load", function () {
+        preview.src = reader.result;
+        initializeValues();
+    }, false);
+
+    if (file) {
+        reader.readAsDataURL(file);
+    }
+}
+
+colorizedInput.onchange = function () {
+    var preview = colorizedImage;
+    var file = colorizedInput.files[0];
+    var reader = new FileReader();
+
+    reader.addEventListener("load", function () {
+        preview.src = reader.result;
+        initializeValues();
+    }, false);
+    if (file) {
+        reader.readAsDataURL(file);
+    }
+}
+
+function initializeValues() {
     canvas.height = $('#originalSize')[0].height;
     canvas.width = $('#originalSize')[0].width;
     ctx.drawImage($('#originalSize')[0], 0, 0);
     canvas2.height = $('#colorized')[0].height;
     canvas2.width = $('#colorized')[0].width;
     ctx2.drawImage($('#colorized')[0], 0, 0);
+    workOutRatios();
+    $('#start')[0].removeEventListener('click', onStartClick);
+    $('#save')[0].removeEventListener('click', onSaveClick);
+    $('#start')[0].addEventListener('click', onStartClick);
+    $('#save')[0].addEventListener('click', onSaveClick);
     $('#originalSize')[0].style.display = 'none';
     $('#colorized')[0].style.display = 'none';
-    workOutRatios();
-    $('#start')[0].addEventListener('click', function () {
-        $('#start')[0].value = 'Mapping colors...';
-        setTimeout(launchWebWorker, 100);
-    });
-    $('#save')[0].addEventListener('click', function () {
-        window.open(canvas.toDataURL());
-    })
 }
 
 function workOutRatios() {
